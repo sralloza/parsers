@@ -1,0 +1,5 @@
+bs4
+pydantic
+requests
+sentry-sdk
+typer
