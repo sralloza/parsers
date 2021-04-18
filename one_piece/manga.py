@@ -10,10 +10,6 @@ from .networking import session
 from .notify import notify_text
 
 
-class DoNotUseWarning(Warning):
-    pass
-
-
 FIRST_CHAPTER_UUID = "8d23d3d6-7c59-4223-bfbc-6f87aa8259dd"
 PARSE_BASE_URL = (
     "https://inmanga.com/chapter/chapterIndexControls" "?identification={chapter_id}"
