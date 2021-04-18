@@ -30,7 +30,7 @@ def get_latest_link() -> Link:
 
 
 @anime_app.command()
-def parse():
+def parse(silent: bool = False):
     """Check for new One Piece episodes and send the new links via Telegram."""
 
     link = get_latest_link()
@@ -42,8 +42,9 @@ def parse():
     if link.url in registered_links:
         return
 
-    msg = f"Nuevo capítulo de **One Piece**: [{link.title}]({link.url})"
-    notify_text(msg)
+    if not silent:
+        msg = f"Nuevo capítulo de **One Piece**: [{link.title}]({link.url})"
+        notify_text(msg)
 
     registered_links.append(link.url)
     registered_links.sort()
