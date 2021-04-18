@@ -17,7 +17,6 @@ PARSE_BASE_URL = (
 PUBLIC_BASE_URL = (
     "https://inmanga.com/ver/manga/One-Piece/{chapter_number}/{chapter_id}"
 )
-IMAGE_URL = "https://pack-yak.intomanga.com/images/manga/One-Piece/chapter/x/page/{page_number}/{page_id}"
 
 manga_app = typer.Typer(add_completion=False)
 
