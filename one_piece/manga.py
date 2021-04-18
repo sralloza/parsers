@@ -1,17 +1,13 @@
-from io import BytesIO
 from json import JSONEncoder, dumps, loads
-from pathlib import Path
-from threading import Lock, Thread
-from typing import Dict, List
-from uuid import UUID, uuid4
-import warnings
+from typing import Dict
+from uuid import UUID
+
 import typer
 from bs4 import BeautifulSoup
-from PIL import Image
 
 from .config import settings
 from .networking import session
-from .notify import notify_pdf, notify_text
+from .notify import notify_text
 
 
 class DoNotUseWarning(Warning):
@@ -50,7 +46,6 @@ def parse(silent: bool = False):
         if chapter_id not in registered_chapters.values():
             try:
                 notify_new(chapter_number, chapter_id, silent=silent)
-                # gen_pdf_and_send(chapter_number, chapter_id, silent=silent)
                 registered_chapters[str(chapter_number)] = chapter_id
                 settings.manga_uuids_path.write_text(
                     dumps(registered_chapters, cls=UUIDEncoder, indent=2), "utf8"
@@ -72,32 +67,6 @@ def notify_new(chapter_number: float, chapter_id: UUID, silent: bool = False):
     notify_text(msg=f"Nuevo manga de one piece: [Capítulo {chapter_title}]({url})")
 
 
-def gen_pdf_and_send(chapter_number: float, chapter_id: UUID, silent: bool = False):
-    warnings.warn("Do not generate pdf", DoNotUseWarning)
-
-    if silent:
-        return
-
-    try:
-        chapter_title = str(int(chapter_number))
-    except ValueError:
-        chapter_title = str(chapter_number)
-
-    file = BytesIO()
-    file.name = "chapter.pdf"
-    get_pdf_by_chapter_id(chapter_id, file)
-    file.seek(0)
-    file_content = file.read()
-    file.close()
-
-    caption = f"Nuevo manga de one piece: {chapter_title}"
-    notify_pdf(
-        filename=f"one-piece-manga-{chapter_title}.pdf",
-        caption=caption,
-        file_content=file_content,
-    )
-
-
 def get_chapter_ids() -> Dict[float, UUID]:
     r = session.get(PARSE_BASE_URL.format(chapter_id=FIRST_CHAPTER_UUID))
     soup = BeautifulSoup(r.text, "html.parser")
@@ -107,66 +76,6 @@ def get_chapter_ids() -> Dict[float, UUID]:
         number = float(opt.text.replace(",", ""))
         ids[number] = UUID(opt["value"])
     return ids
-
-
-def is_grey_scale(img: Image.Image):
-    w, h = img.size
-    for i in range(w):
-        for j in range(h):
-            r, g, b = img.getpixel((i, j))
-            if r != g != b:
-                return False
-    return True
-
-
-def fetch_image(url: str, page, image_list: Dict[int, Image.Image], lock: Lock):
-    r = session.get(url, stream=True)
-    with lock:
-        im = Image.open(r.raw)
-        im.load()
-        # out = BytesIO()
-        # im.save(out, format="png")
-        # size = out.tell()
-        # if im.size[1] != 1200:
-        # if not is_grey_scale(im):
-        #     im.save(f"avoid/{uuid4()}.png")
-        #     return
-        # if size > 999999:
-        #     return
-        # print(f"{page:2d}", out.tell(), im.size)
-        image_list[page] = im
-
-
-def get_pdf_by_chapter_id(chapter_id: UUID, file):
-    r = session.get(PARSE_BASE_URL.format(chapter_id=chapter_id))
-    soup = BeautifulSoup(r.text, "html.parser")
-
-    pages = {}
-    for opt in soup.find(id="PageList")("option"):
-        number = int(opt.text.replace(",", ""))
-        pages[number] = UUID(opt["value"])
-
-    images = {}
-    threads = []
-    lock = Lock()
-    for page_number, page_id in pages.items():
-        attrs = dict(page_number=page_number, page_id=page_id)
-        t = Thread(
-            target=fetch_image,
-            args=(IMAGE_URL.format(**attrs), page_number, images, lock),
-            daemon=True,
-        )
-        threads.append(t)
-        t.start()
-
-    for t in threads:
-        t.join()
-
-    pages = sorted(images.keys())
-    image_list = [images[x] for x in pages]
-
-    im = image_list[0]
-    im.save(file, save_all=True, append_images=image_list[1:])
 
 
 @manga_app.command(help="Reset the uuids file")
