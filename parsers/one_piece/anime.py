@@ -5,9 +5,10 @@ from typing import List
 import typer
 from bs4 import BeautifulSoup
 
-from .config import settings
-from .networking import session
-from .notify import notify_text
+from parsers.utils.networking import session
+from parsers.utils.notify import notify_text
+
+from parsers.config import settings
 
 anime_app = typer.Typer(add_completion=False)
 Link = namedtuple("Link", "title url")

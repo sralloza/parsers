@@ -2,7 +2,7 @@ from typing import Any, Dict
 
 import requests
 
-from .config import settings
+from parsers.config import settings
 
 
 def notify_text(msg: str):

@@ -1,7 +1,8 @@
 from os import makedirs
 from pathlib import Path
-from pydantic import BaseSettings, validator
+
 import typer
+from pydantic import BaseSettings, validator
 
 
 class Settings(BaseSettings):

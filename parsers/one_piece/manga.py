@@ -3,17 +3,13 @@ from typing import Dict
 from uuid import UUID
 
 import typer
-from bs4 import BeautifulSoup
 
-from .config import settings
-from .networking import session
-from .notify import notify_text
+from parsers.utils.immanga import get_chapter_ids
+from parsers.utils.notify import notify_text
 
+from parsers.config import settings
 
-FIRST_CHAPTER_UUID = "8d23d3d6-7c59-4223-bfbc-6f87aa8259dd"
-PARSE_BASE_URL = (
-    "https://inmanga.com/chapter/chapterIndexControls" "?identification={chapter_id}"
-)
+FIRST_CHAPTER_UUID = UUID("8d23d3d6-7c59-4223-bfbc-6f87aa8259dd")
 PUBLIC_BASE_URL = (
     "https://inmanga.com/ver/manga/One-Piece/{chapter_number}/{chapter_id}"
 )
@@ -30,7 +26,7 @@ class UUIDEncoder(JSONEncoder):
 
 @manga_app.command(help="Finds new chapters")
 def parse(silent: bool = False):
-    chapter_ids = get_chapter_ids()
+    chapter_ids = get_chapter_ids(FIRST_CHAPTER_UUID)
 
     registered_chapters: Dict[str, UUID] = {
         a: UUID(b)
@@ -60,17 +56,6 @@ def notify_new(chapter_number: float, chapter_id: UUID, silent: bool = False):
 
     url = PUBLIC_BASE_URL.format(chapter_number=chapter_number, chapter_id=chapter_id)
     notify_text(msg=f"Nuevo manga de one piece: [Capítulo {chapter_title}]({url})")
-
-
-def get_chapter_ids() -> Dict[float, UUID]:
-    r = session.get(PARSE_BASE_URL.format(chapter_id=FIRST_CHAPTER_UUID))
-    soup = BeautifulSoup(r.text, "html.parser")
-
-    ids = {}
-    for opt in soup.find(id="ChapList")("option"):
-        number = float(opt.text.replace(",", ""))
-        ids[number] = UUID(opt["value"])
-    return ids
 
 
 @manga_app.command(help="Reset the uuids file")

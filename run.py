@@ -1,3 +1,3 @@
-from one_piece import app
+from parsers import app
 
 app()
