@@ -5,10 +5,9 @@ from typing import List
 import typer
 from bs4 import BeautifulSoup
 
+from parsers.config import settings
 from parsers.utils.networking import session
 from parsers.utils.notify import notify_text
-
-from parsers.config import settings
 
 anime_app = typer.Typer(add_completion=False)
 Link = namedtuple("Link", "title url")
@@ -37,7 +36,7 @@ def parse(silent: bool = False):
     link = get_latest_link()
 
     registered_links: List[str] = loads(
-        settings.anime_links_file_path.read_text("utf8")
+        settings.one_piece_anime_links_file_path.read_text("utf8")
     )
 
     if link.url in registered_links:
@@ -49,24 +48,24 @@ def parse(silent: bool = False):
 
     registered_links.append(link.url)
     registered_links.sort()
-    settings.anime_links_file_path.write_text(
+    settings.one_piece_anime_links_file_path.write_text(
         dumps(registered_links, indent=2, ensure_ascii=False), encoding="utf8"
     )
 
 
 @anime_app.command(help="Reset the links list")
 def reset():
-    settings.anime_links_file_path.write_text("[]", "utf8")
+    settings.one_piece_anime_links_file_path.write_text("[]", "utf8")
 
 
 @anime_app.command("open", help="Try to open the links file")
 def open_file():
-    typer.launch(settings.anime_links_file_path.as_posix())
+    typer.launch(settings.one_piece_anime_links_file_path.as_posix())
 
 
 @anime_app.command(help="Print links file content to stdout")
 def show():
-    text = settings.anime_links_file_path.read_text("utf8")
+    text = settings.one_piece_anime_links_file_path.read_text("utf8")
     n = max([len(x) for x in text.splitlines()])
 
     typer.secho("=" * n, fg="bright_cyan")

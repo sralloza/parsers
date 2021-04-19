@@ -1,12 +1,11 @@
 from typing import Any, Dict
 
-import requests
-
 from parsers.config import settings
+from parsers.utils.networking import session
 
 
 def notify_text(msg: str):
-    response = requests.post(
+    response = session.post(
         f"https://api.telegram.org/bot{settings.bot_token}/sendMessage",
         json={
             "chat_id": settings.chat_id,
@@ -23,7 +22,7 @@ def notify_pdf(file_content: bytes, filename: str, caption: str = None):
     if caption:
         params["caption"] = caption
 
-    response = requests.post(
+    response = session.post(
         f"https://api.telegram.org/bot{settings.bot_token}/sendDocument",
         params=params,
         files={"document": (filename, file_content)},

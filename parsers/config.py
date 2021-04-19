@@ -22,15 +22,22 @@ class Settings(BaseSettings):
         return v
 
     @property
-    def anime_links_file_path(self):
-        v = self.app_dir / "anime-links"
+    def one_piece_anime_links_file_path(self):
+        v = self.app_dir / "op-anime-links"
         if not v.is_file():
             v.write_text("[]", "utf8")
         return v
 
     @property
-    def manga_uuids_path(self):
-        v = self.app_dir / "manga-uuids"
+    def one_piece_manga_uuids_path(self):
+        v = self.app_dir / "op-manga-uuids"
+        if not v.is_file():
+            v.write_text("{}", "utf8")
+        return v
+
+    @property
+    def one_punch_man_manga_uuids_path(self):
+        v = self.app_dir / "opm-manga-uuids"
         if not v.is_file():
             v.write_text("{}", "utf8")
         return v

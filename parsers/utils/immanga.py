@@ -1,9 +1,12 @@
+import inspect
 from typing import Dict
 from uuid import UUID
 
 from bs4 import BeautifulSoup
+from requests.adapters import RetryError
 
 from parsers.utils.networking import session
+from parsers.utils.notify import notify_text
 
 PARSE_BASE_URL = (
     "https://inmanga.com/chapter/chapterIndexControls" "?identification={chapter_id}"
@@ -11,7 +14,15 @@ PARSE_BASE_URL = (
 
 
 def get_chapter_ids(first_chapter_uuid: UUID) -> Dict[float, UUID]:
-    r = session.get(PARSE_BASE_URL.format(chapter_id=first_chapter_uuid))
+    try:
+        r = session.get(PARSE_BASE_URL.format(chapter_id=first_chapter_uuid))
+    except RetryError as exc:
+        name = inspect.getmodule(inspect.stack()[1][0]).__name__
+        msg = f"Max retries when parsing `immanga` from parser {name!r} [{exc}]"
+        notify_text(msg)
+        print(msg)
+        exit(1)
+
     soup = BeautifulSoup(r.text, "html.parser")
 
     ids = {}
