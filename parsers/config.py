@@ -6,7 +6,7 @@ from pydantic import BaseSettings, validator
 
 
 class Settings(BaseSettings):
-    app_dir: Path = Path(typer.get_app_dir("one-piece-parser"))
+    app_dir: Path = Path(typer.get_app_dir("parsers"))
     bot_token: str = "1038586894:AAHE8CPZXXaZJ0KVTxuRXFV6TnQn9qddLaU"
     chat_id: int = 752192090
     base_url: str = "https://animebymega.blogspot.com/2020/07/one-piece-933-sub-espanol-por-mega.html"

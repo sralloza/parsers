@@ -74,4 +74,4 @@ def show():
 
 
 if __name__ == "__main__":
-    anime_app(prog_name="one-piece-parser")
+    anime_app(prog_name="parsers")
