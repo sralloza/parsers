@@ -17,7 +17,6 @@ def add_manga_app(
     public_base_url: str,
     manga_name: str,
 ):
-    pass
     @manga_app.command("parse", help="Finds new chapters")
     def parse(silent: bool = False):
         chapter_ids = get_chapter_ids(first_chapter_uuid)
@@ -28,14 +27,11 @@ def add_manga_app(
 
         for chapter_number, chapter_id in chapter_ids.items():
             if chapter_id not in registered_chapters.values():
-                try:
-                    notify_new(chapter_number, chapter_id, silent=silent)
-                    registered_chapters[str(chapter_number)] = chapter_id
-                    uuids_path.write_text(
-                        dumps(registered_chapters, cls=UUIDEncoder, indent=2), "utf8"
-                    )
-                except Exception as exc:
-                    print(exc)
+                notify_new(chapter_number, chapter_id, silent=silent)
+                registered_chapters[str(chapter_number)] = chapter_id
+                uuids_path.write_text(
+                    dumps(registered_chapters, cls=UUIDEncoder, indent=2), "utf8"
+                )
 
     def notify_new(chapter_number: float, chapter_id: UUID, silent: bool = False):
         if silent:
