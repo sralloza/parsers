@@ -15,7 +15,7 @@ sentry_sdk.init(
     settings.sentry_url, traces_sample_rate=1.0, ignore_errors=[KeyboardInterrupt, BdbQuit]
 )
 
-app = typer.Typer(add_completion=False)
+app = typer.Typer(add_completion=False, no_args_is_help=True)
 app.add_typer(one_piece_app, name="one-piece")
 app.add_typer(one_punch_man_app, name="one-punch-man")
 app.add_typer(my_hero_academia_app, name="my-hero-academia")

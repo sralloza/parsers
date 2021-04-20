@@ -9,7 +9,7 @@ from parsers.config import settings
 from parsers.utils.networking import session
 from parsers.utils.notify import notify_text
 
-anime_app = typer.Typer(add_completion=False)
+anime_app = typer.Typer(add_completion=False, no_args_is_help=True)
 Link = namedtuple("Link", "title url")
 
 

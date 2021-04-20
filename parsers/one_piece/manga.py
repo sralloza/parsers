@@ -15,7 +15,7 @@ PUBLIC_BASE_URL = (
     "https://inmanga.com/ver/manga/One-Piece/{chapter_number}/{chapter_id}"
 )
 
-manga_app = typer.Typer(add_completion=False)
+manga_app = typer.Typer(add_completion=False, no_args_is_help=True)
 
 add_manga_app(
     manga_app,
