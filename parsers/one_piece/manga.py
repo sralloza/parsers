@@ -1,14 +1,9 @@
-from json import dumps, loads
-from parsers.base.manga import add_manga_app
-from typing import Dict
 from uuid import UUID
 
 import typer
 
+from parsers.base.manga import add_manga_app
 from parsers.config import settings
-from parsers.utils.immanga import get_chapter_ids
-from parsers.utils.json_encoding import UUIDEncoder
-from parsers.utils.notify import notify_text
 
 FIRST_CHAPTER_UUID = UUID("8d23d3d6-7c59-4223-bfbc-6f87aa8259dd")
 PUBLIC_BASE_URL = (

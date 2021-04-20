@@ -4,12 +4,12 @@ import sentry_sdk
 import typer
 
 from .config import settings
+from .my_hero_academia import app as my_hero_academia_app
+from .my_hero_academia import parse as parse_my_hero_academia
 from .one_piece import app as one_piece_app
 from .one_piece import parse as parse_one_piece
 from .one_punch_man import app as one_punch_man_app
 from .one_punch_man import parse as parse_one_punch_man
-from .my_hero_academia import app as my_hero_academia_app
-from .my_hero_academia import parse as parse_my_hero_academia
 
 sentry_sdk.init(
     settings.sentry_url, traces_sample_rate=1.0, ignore_errors=[KeyboardInterrupt, BdbQuit]

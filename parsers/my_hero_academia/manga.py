@@ -1,5 +1,3 @@
-from json import dumps, loads
-from typing import Dict
 from uuid import UUID
 
 import typer

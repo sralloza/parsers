@@ -5,7 +5,6 @@ from uuid import UUID
 
 import typer
 
-from parsers.config import settings
 from parsers.utils.immanga import get_chapter_ids
 from parsers.utils.json_encoding import UUIDEncoder
 from parsers.utils.notify import notify_text
