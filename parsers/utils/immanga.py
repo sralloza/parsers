@@ -9,7 +9,7 @@ from parsers.utils.networking import session
 from parsers.utils.notify import notify_text
 
 PARSE_BASE_URL = (
-    "https://inmanga.com/chapter/chapterIndexControls" "?identification={chapter_id}"
+    "https://inmanga.com/chapter/chapterIndexControls?identification={chapter_id}"
 )
 
 

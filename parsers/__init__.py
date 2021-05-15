@@ -22,9 +22,9 @@ app.add_typer(my_hero_academia_app, name="my-hero-academia")
 
 
 @app.command("parse")
-def parse():
+def parse(silent: bool = False):
     """Parse manga and anime."""
 
-    parse_one_piece()
-    parse_one_punch_man()
-    parse_my_hero_academia()
+    parse_one_piece(silent=silent)
+    parse_one_punch_man(silent=silent)
+    parse_my_hero_academia(silent=silent)

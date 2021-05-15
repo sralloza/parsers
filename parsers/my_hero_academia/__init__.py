@@ -12,10 +12,10 @@ parse_manga = next(
 
 
 @app.command("parse")
-def parse():
+def parse(silent: bool = False):
     """Parse manga and anime."""
 
-    parse_manga()
+    parse_manga(silent=silent)
 
 
 del manga_app, typer
