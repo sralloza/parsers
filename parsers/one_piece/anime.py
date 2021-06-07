@@ -18,7 +18,9 @@ def get_latest_link() -> Link:
     response.raise_for_status()
     soup = BeautifulSoup(response.text, "html.parser")
 
-    container = list(soup.select("div font a"))[-1]
+    container = list(
+        soup.find_all("a", class_="imgbtn imgbtn--red imgbtn--rubber daicon-download")
+    )[-1]
 
     try:
         title = container.parent.parent.parent.previous_sibling.text
