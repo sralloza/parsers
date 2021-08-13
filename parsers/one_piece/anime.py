@@ -8,6 +8,7 @@ from bs4 import BeautifulSoup
 from parsers.config import settings
 from parsers.utils.networking import session
 from parsers.utils.notify import notify_text
+from parsers.utils.todoist import add_task
 
 anime_app = typer.Typer(add_completion=False, no_args_is_help=True)
 Link = namedtuple("Link", "title url")
@@ -45,8 +46,9 @@ def parse(silent: bool = False):
         return
 
     if not silent:
-        msg = f"Nuevo capítulo de **One Piece**: [{link.title}]({link.url})"
+        msg = f"Nuevo capítulo de One Piece: [{link.title}]({link.url})"
         notify_text(msg)
+        add_task(msg)
 
     registered_links.append(link.url)
     registered_links.sort()

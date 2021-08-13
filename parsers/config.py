@@ -13,6 +13,7 @@ class Settings(BaseSettings):
     sentry_url: str = (
         "https://098e3c6525744bb2bba46d71a2a5e213@o560014.ingest.sentry.io/5696723"
     )
+    todoist_token: str = "421cab42951258397df74462e78501b4991c9beb"
 
     @validator("app_dir")
     def create_app_dir(cls, v):

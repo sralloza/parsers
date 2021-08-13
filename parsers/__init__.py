@@ -12,7 +12,9 @@ from .one_punch_man import app as one_punch_man_app
 from .one_punch_man import parse as parse_one_punch_man
 
 sentry_sdk.init(
-    settings.sentry_url, traces_sample_rate=1.0, ignore_errors=[KeyboardInterrupt, BdbQuit]
+    settings.sentry_url,
+    traces_sample_rate=1.0,
+    ignore_errors=[KeyboardInterrupt, BdbQuit],
 )
 
 app = typer.Typer(add_completion=False, no_args_is_help=True)
