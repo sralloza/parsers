@@ -8,6 +8,7 @@ import typer
 from parsers.utils.immanga import get_chapter_ids
 from parsers.utils.json_encoding import UUIDEncoder
 from parsers.utils.notify import notify_text
+from parsers.utils.todoist import add_task
 
 
 def add_manga_app(
@@ -45,9 +46,9 @@ def add_manga_app(
         url = public_base_url.format(
             chapter_number=chapter_number, chapter_id=chapter_id
         )
-        notify_text(
-            msg=f"Nuevo manga de {manga_name}: [Capítulo {chapter_title}]({url})"
-        )
+        msg = f"Nuevo manga de {manga_name}: [Capítulo {chapter_title}]({url})"
+        notify_text(msg=msg)
+        add_task(msg=msg)
 
     @manga_app.command("reset", help="Reset the uuids file")
     def reset():
