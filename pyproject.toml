@@ -3,6 +3,10 @@ name = "parsers"
 version = "1.0.0"
 description = "Parse anime and manga and send notification via telegram and a task via todoist"
 authors = ["Diego Alloza González <sralloza@gmail.com>"]
+maintainers = ["Diego Alloza González <sralloza@gmail.com>"]
+
+[tool.poetry.scripts]
+parsers = "parsers.main:main"
 
 [tool.poetry.dependencies]
 python = ">=3.7,<4"
