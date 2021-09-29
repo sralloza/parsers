@@ -1,5 +1,5 @@
-from . import app
+from . import main_app
 
 
 def main():
-    app()
+    main_app()

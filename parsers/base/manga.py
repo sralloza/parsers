@@ -3,21 +3,24 @@ from pathlib import Path
 from typing import Dict
 from uuid import UUID
 
-import typer
+import click
 
-from parsers.utils.immanga import get_chapter_ids
-from parsers.utils.json_encoding import UUIDEncoder
-from parsers.utils.notify import notify_text
-from parsers.utils.todoist import add_task
+from ..utils.immanga import get_chapter_ids
+from ..utils.json_encoding import UUIDEncoder
+from ..utils.notify import notify_text
+from ..utils.todoist import add_task
 
 
 def add_manga_app(
-    manga_app: typer.Typer,
     first_chapter_uuid: UUID,
     uuids_path: Path,
     public_base_url: str,
     manga_name: str,
 ):
+    @click.group(no_args_is_help=True, help=f"Manage {manga_name} manga")
+    def manga_app():
+        pass
+
     @manga_app.command("parse", help="Finds new chapters")
     def parse(silent: bool = False):
         chapter_ids = get_chapter_ids(first_chapter_uuid)
@@ -56,15 +59,15 @@ def add_manga_app(
 
     @manga_app.command("open", help="Try to open the uuids file")
     def open_file():
-        typer.launch(uuids_path.as_posix())
+        click.launch(uuids_path.as_posix())
 
     @manga_app.command("show", help="Print uuids file content to stdout")
     def show():
         text = uuids_path.read_text("utf8")
         n = max([len(x) for x in text.splitlines()])
 
-        typer.secho("=" * n, fg="bright_cyan")
-        typer.secho(text)
-        typer.secho("=" * n, fg="bright_cyan")
+        click.secho("=" * n, fg="bright_cyan")
+        click.secho(text)
+        click.secho("=" * n, fg="bright_cyan")
 
-    return parse
+    return manga_app

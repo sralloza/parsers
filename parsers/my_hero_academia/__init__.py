@@ -1,21 +1,19 @@
-import typer
+import click
 
+from ..utils.options import silent_option
 from .manga import manga_app
 
-app = typer.Typer(add_completion=False, no_args_is_help=True)
-app.add_typer(manga_app, name="manga")
+
+@click.group(no_args_is_help=True, help="My Hero Academia")
+def mha_app():
+    pass
 
 
-parse_manga = next(
-    x for x in manga_app.registered_commands if x.name == "parse"
-).callback
+mha_app.add_command(manga_app, name="manga")
 
 
-@app.command("parse")
-def parse(silent: bool = False):
-    """Parse manga and anime."""
-
+@mha_app.command("parse", help="Parse my hero academia both manga and anime")
+@silent_option()
+def parse(silent: bool):
+    parse_manga = manga_app.commands["parse"].callback
     parse_manga(silent=silent)
-
-
-del manga_app, typer

@@ -1,24 +1,23 @@
-import typer
+import click
 
+from ..utils.options import silent_option
 from .anime import anime_app
 from .anime import parse as parse_anime
 from .manga import manga_app
 
-app = typer.Typer(add_completion=False, no_args_is_help=True)
-app.add_typer(anime_app, name="anime")
-app.add_typer(manga_app, name="manga")
 
-parse_manga = next(
-    x for x in manga_app.registered_commands if x.name == "parse"
-).callback
+@click.group(no_args_is_help=True, help="One Piece")
+def app():
+    pass
 
 
-@app.command("parse")
-def parse(silent: bool = False):
-    """Parse manga and anime."""
+app.add_command(anime_app, name="anime")
+app.add_command(manga_app, name="manga")
 
+
+@app.command("parse", help="Parse one piece both manga and anime")
+@silent_option()
+def parse(silent: bool):
+    parse_manga = manga_app.commands["parse"].callback
     parse_anime(silent=silent)
     parse_manga(silent=silent)
-
-
-del anime_app, manga_app, typer

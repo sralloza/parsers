@@ -2,16 +2,21 @@ from collections import namedtuple
 from json import dumps, loads
 from typing import List
 
-import typer
+import click
 from bs4 import BeautifulSoup
 
-from parsers.config import settings
-from parsers.utils.networking import session
-from parsers.utils.notify import notify_text
-from parsers.utils.todoist import add_task
+from ..config import settings
+from ..utils.networking import session
+from ..utils.notify import notify_text
+from ..utils.options import silent_option
+from ..utils.todoist import add_task
 
-anime_app = typer.Typer(add_completion=False, no_args_is_help=True)
 Link = namedtuple("Link", "title url")
+
+
+@click.group(no_args_is_help=True, help="Manage one piece anime")
+def anime_app():
+    pass
 
 
 def get_latest_link() -> Link:
@@ -32,8 +37,9 @@ def get_latest_link() -> Link:
     return Link(title, container["href"])
 
 
-@anime_app.command()
-def parse(silent: bool = False):
+@anime_app.command(help="Parse anime")
+@silent_option()
+def parse(silent: bool):
     """Check for new One Piece episodes and send the new links via Telegram."""
 
     link = get_latest_link()
@@ -64,7 +70,7 @@ def reset():
 
 @anime_app.command("open", help="Try to open the links file")
 def open_file():
-    typer.launch(settings.one_piece_anime_links_file_path.as_posix())
+    click.launch(settings.one_piece_anime_links_file_path.as_posix())
 
 
 @anime_app.command(help="Print links file content to stdout")
@@ -72,10 +78,6 @@ def show():
     text = settings.one_piece_anime_links_file_path.read_text("utf8")
     n = max([len(x) for x in text.splitlines()])
 
-    typer.secho("=" * n, fg="bright_cyan")
-    typer.secho(text)
-    typer.secho("=" * n, fg="bright_cyan")
-
-
-if __name__ == "__main__":
-    anime_app(prog_name="parsers")
+    click.secho("=" * n, fg="bright_cyan")
+    click.secho(text)
+    click.secho("=" * n, fg="bright_cyan")

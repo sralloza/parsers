@@ -1,7 +1,5 @@
 from uuid import UUID
 
-import typer
-
 from parsers.base.manga import add_manga_app
 from parsers.config import settings
 
@@ -10,10 +8,8 @@ PUBLIC_BASE_URL = (
     "https://inmanga.com/ver/manga/One-Piece/{chapter_number}/{chapter_id}"
 )
 
-manga_app = typer.Typer(add_completion=False, no_args_is_help=True)
 
-add_manga_app(
-    manga_app,
+manga_app = add_manga_app(
     FIRST_CHAPTER_UUID,
     settings.one_piece_manga_uuids_path,
     PUBLIC_BASE_URL,

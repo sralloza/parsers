@@ -1,12 +1,12 @@
 from os import makedirs
 from pathlib import Path
 
-import typer
+import click
 from pydantic import BaseSettings, validator
 
 
 class Settings(BaseSettings):
-    app_dir: Path = Path(typer.get_app_dir("parsers"))
+    app_dir: Path = Path(click.get_app_dir("parsers"))
     bot_token: str
     chat_id: int
     base_url: str
