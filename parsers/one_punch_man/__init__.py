@@ -1,6 +1,6 @@
 import click
 
-from ..utils.options import silent_option
+from ..base.parse_command import add_parse_command
 from .manga import manga_app
 
 
@@ -11,9 +11,4 @@ def opm_app():
 
 opm_app.add_command(manga_app, name="manga")
 
-
-@opm_app.command("parse", help="Parse one punch man both manga and anime")
-@silent_option()
-def parse(silent: bool):
-    parse_manga = manga_app.commands["parse"].callback
-    parse_manga(silent=silent)
+add_parse_command(opm_app, manga_app=manga_app, name="one piece")

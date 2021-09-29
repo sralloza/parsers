@@ -1,23 +1,16 @@
 import click
 
-from ..utils.options import silent_option
+from ..base.parse_command import add_parse_command
 from .anime import anime_app
-from .anime import parse as parse_anime
 from .manga import manga_app
 
 
 @click.group(no_args_is_help=True, help="One Piece")
-def app():
+def op_app():
     pass
 
 
-app.add_command(anime_app, name="anime")
-app.add_command(manga_app, name="manga")
+op_app.add_command(anime_app, name="anime")
+op_app.add_command(manga_app, name="manga")
 
-
-@app.command("parse", help="Parse one piece both manga and anime")
-@silent_option()
-def parse(silent: bool):
-    parse_manga = manga_app.commands["parse"].callback
-    parse_anime(silent=silent)
-    parse_manga(silent=silent)
+add_parse_command(op_app, anime_app=anime_app, manga_app=manga_app, name="one piece")

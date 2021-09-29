@@ -8,6 +8,7 @@ import click
 from ..utils.immanga import get_chapter_ids
 from ..utils.json_encoding import UUIDEncoder
 from ..utils.notify import notify_text
+from ..utils.options import silent_option
 from ..utils.todoist import add_task
 
 
@@ -22,7 +23,8 @@ def add_manga_app(
         pass
 
     @manga_app.command("parse", help="Finds new chapters")
-    def parse(silent: bool = False):
+    @silent_option()
+    def parse(silent: bool):
         chapter_ids = get_chapter_ids(first_chapter_uuid)
 
         registered_chapters: Dict[str, UUID] = {
