@@ -48,5 +48,12 @@ class Settings(BaseSettings):
             v.write_text("{}", "utf8")
         return v
 
+    @property
+    def my_hero_academia_illegals_manga_uuids_path(self):
+        v = self.app_dir / "mha-illegals-manga-uuids"
+        if not v.is_file():
+            v.write_text("{}", "utf8")
+        return v
+
 
 settings = Settings()
