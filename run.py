@@ -1,3 +1,3 @@
-from parsers import app
+from parsers import main_app
 
-app()
+main_app()

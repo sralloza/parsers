@@ -1,21 +1,14 @@
-import typer
+import click
 
+from ..base.parse_command import add_parse_command
 from .manga import manga_app
 
-app = typer.Typer(add_completion=False, no_args_is_help=True)
-app.add_typer(manga_app, name="manga")
+
+@click.group(no_args_is_help=True, help="One Punch Man")
+def opm_app():
+    pass
 
 
-parse_manga = next(
-    x for x in manga_app.registered_commands if x.name == "parse"
-).callback
+opm_app.add_command(manga_app, name="manga")
 
-
-@app.command("parse")
-def parse(silent: bool = False):
-    """Parse manga and anime."""
-
-    parse_manga(silent=silent)
-
-
-del manga_app, typer
+add_parse_command(opm_app, manga_app=manga_app, name="one piece")
