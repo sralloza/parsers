@@ -1,6 +1,6 @@
 from todoist.api import TodoistAPI
 
-from parsers.config import settings
+from ..config import settings
 
 
 def add_task(msg):

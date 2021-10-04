@@ -5,11 +5,12 @@ import sentry_sdk
 
 from .config import settings
 from .my_hero_academia import mha_app
+from .my_hero_academia_illegals import mhai_app
 from .one_piece import op_app
 from .one_punch_man import opm_app
 from .utils.options import silent_option
 
-APPS = [mha_app, op_app, opm_app]
+APPS = [mha_app, op_app, opm_app, mhai_app]
 
 sentry_sdk.init(
     settings.sentry_url,
@@ -24,6 +25,7 @@ def main_app():
 
 
 main_app.add_command(mha_app, name="one-piece")
+main_app.add_command(mhai_app, name="my-hero-academia-illegals")
 main_app.add_command(op_app, name="one-punch-man")
 main_app.add_command(opm_app, name="my-hero-academia")
 
@@ -33,4 +35,4 @@ main_app.add_command(opm_app, name="my-hero-academia")
 def parse(silent: bool):
     for app in APPS:
         func = app.commands["parse"].callback
-        r=func(silent=silent)
+        func(silent=silent)

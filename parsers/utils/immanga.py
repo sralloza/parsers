@@ -5,8 +5,8 @@ from uuid import UUID
 from bs4 import BeautifulSoup
 from requests.adapters import RetryError
 
-from parsers.utils.networking import session
-from parsers.utils.notify import notify_text
+from ..utils.networking import session
+from ..utils.notify import notify_text
 
 PARSE_BASE_URL = (
     "https://inmanga.com/chapter/chapterIndexControls?identification={chapter_id}"

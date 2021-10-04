@@ -1,7 +1,7 @@
 from typing import Any, Dict
 
-from parsers.config import settings
-from parsers.utils.networking import session
+from ..config import settings
+from ..utils.networking import session
 
 
 def notify_text(msg: str):

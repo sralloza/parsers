@@ -1,7 +1,7 @@
 from uuid import UUID
 
-from parsers.base.manga import add_manga_app
-from parsers.config import settings
+from ..base.manga import add_manga_app
+from ..config import settings
 
 FIRST_CHAPTER_UUID = UUID("8dcb38ab-2677-4e39-844f-2ac891e607be")
 PUBLIC_BASE_URL = (
