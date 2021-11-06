@@ -6,9 +6,9 @@ from ..utils.networking import session
 
 def notify_text(msg: str):
     response = session.post(
-        f"https://api.telegram.org/bot{settings.bot_token}/sendMessage",
+        f"https://api.telegram.org/bot{settings.telegram_bot_token}/sendMessage",
         json={
-            "chat_id": settings.chat_id,
+            "chat_id": settings.telegram_chat_id,
             "text": msg,
             "parse_mode": "markdown",
             "disable_web_page_preview": True,
@@ -18,12 +18,12 @@ def notify_text(msg: str):
 
 
 def notify_pdf(file_content: bytes, filename: str, caption: str = None):
-    params: Dict[str, Any] = {"chat_id": settings.chat_id}
+    params: Dict[str, Any] = {"chat_id": settings.telegram_chat_id}
     if caption:
         params["caption"] = caption
 
     response = session.post(
-        f"https://api.telegram.org/bot{settings.bot_token}/sendDocument",
+        f"https://api.telegram.org/bot{settings.telegram_bot_token}/sendDocument",
         params=params,
         files={"document": (filename, file_content)},
     )
