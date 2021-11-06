@@ -27,17 +27,22 @@ class INMangaParser(BaseModel):
         chapter_ids = get_chapter_ids(self.first_chapter_uuid)
 
         registered_chapters: Dict[str, UUID] = {
-            a: UUID(b) for a, b in get_file_content(self.aws_filename).items()
+            a: UUID(b)
+            for a, b in get_file_content(self.aws_filename, default="{}").items()
         }
 
+        modified = False
         for chapter_number, chapter_id in chapter_ids.items():
             if chapter_id not in registered_chapters.values():
+                modified = True
                 self.notify_new(chapter_number, chapter_id, silent=silent)
                 registered_chapters[str(chapter_number)] = chapter_id
-                save_file_content(
-                    dumps(registered_chapters, cls=UUIDEncoder, indent=2),
-                    self.aws_filename,
-                )
+
+        if modified:
+            save_file_content(
+                dumps(registered_chapters, cls=UUIDEncoder, indent=2),
+                self.aws_filename,
+            )
 
     def notify_new(self, chapter_number: float, chapter_id: UUID, silent: bool = False):
         if silent:

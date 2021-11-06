@@ -10,7 +10,7 @@ from botocore.exceptions import ClientError
 from ..config import settings
 
 
-def get_file_content(filename: str):
+def get_file_content(filename: str, default: str):
     """Returns the meals saved in AWS."""
     s3 = boto3.client("s3")
     with tempfile.TemporaryFile() as fp:
@@ -18,7 +18,8 @@ def get_file_content(filename: str):
             s3.download_fileobj(settings.s3_bucket_name, filename, fp)
         except ClientError as exc:
             if "404" in str(exc):
-                raise ValueError("S3 File not found")
+                save_file_content(default, filename)
+                return get_file_content(filename, default)
             raise
 
         fp.seek(0)
@@ -32,7 +33,7 @@ def save_file_content(file_content: str, filename: str):
         fp.write(file_content.encode("utf8"))
         fp.seek(0)
         try:
-            s3.upload_fileobj(fp, settings.S3_BUCKET_NAME, filename)
+            s3.upload_fileobj(fp, settings.s3_bucket_name, filename)
         except ClientError as exc:
             if exc.response["Error"]["Code"] == "NoSuchBucket":
                 create_bucket()
@@ -43,4 +44,4 @@ def save_file_content(file_content: str, filename: str):
 def create_bucket():
     """Creates the AWS bucket."""
     s3 = boto3.client("s3")
-    s3.create_bucket(Bucket=settings.S3_BUCKET_NAME)
+    s3.create_bucket(Bucket=settings.s3_bucket_name)

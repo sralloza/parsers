@@ -8,8 +8,14 @@ from .utils.options import silent_option
 
 
 @click.group(no_args_is_help=True, help="Parse all")
+def app():
+    pass
+
+
+@app.command("parse")
 @silent_option()
-def main_app(silent: bool):
+def parse(silent: bool):
+    pass
     mha_manga_parser.parse(silent=silent)
     mhai_manga_parser.parse(silent=silent)
     op_manga_parser.parse(silent=silent)

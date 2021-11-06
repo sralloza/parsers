@@ -36,7 +36,7 @@ def parse_op_anime(silent: bool):
 
     link = get_latest_link()
 
-    registered_links: List[str] = get_file_content("one-piece-anime")
+    registered_links: List[str] = get_file_content("one-piece-anime", default="[]")
 
     if link.url in registered_links:
         return
