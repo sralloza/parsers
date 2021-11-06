@@ -1,7 +1,6 @@
 from uuid import UUID
 
-from ..base.manga import add_manga_app
-from ..config import settings
+from ..base.manga import INMangaParser
 
 FIRST_CHAPTER_UUID = UUID("8d23d3d6-7c59-4223-bfbc-6f87aa8259dd")
 PUBLIC_BASE_URL = (
@@ -9,9 +8,8 @@ PUBLIC_BASE_URL = (
 )
 
 
-manga_app = add_manga_app(
-    FIRST_CHAPTER_UUID,
-    settings.one_piece_manga_uuids_path,
-    PUBLIC_BASE_URL,
-    "one piece",
+op_manga_parser = INMangaParser(
+    first_chapter_uuid=FIRST_CHAPTER_UUID,
+    public_base_url=PUBLIC_BASE_URL,
+    manga_name="one piece",
 )
