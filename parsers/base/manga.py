@@ -21,7 +21,7 @@ class INMangaParser(BaseModel):
 
     @property
     def aws_filename(self):
-        return self.manga_name.replace(" ", "-") + "-manga"
+        return self.manga_name.replace(" ", "-").replace(":", "") + "-manga"
 
     def parse(self, silent: bool):
         chapter_ids = get_chapter_ids(self.first_chapter_uuid)
