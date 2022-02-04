@@ -15,7 +15,6 @@ def app():
 @app.command("parse")
 @silent_option()
 def parse(silent: bool):
-    pass
     mha_manga_parser.parse(silent=silent)
     mhai_manga_parser.parse(silent=silent)
     op_manga_parser.parse(silent=silent)

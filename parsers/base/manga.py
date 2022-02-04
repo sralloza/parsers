@@ -1,9 +1,7 @@
-from json import dumps, loads
-from pathlib import Path
+from json import dumps
 from typing import Dict
 from uuid import UUID
 
-import click
 from pydantic.main import BaseModel
 
 from parsers.utils.aws import get_file_content, save_file_content
