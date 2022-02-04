@@ -14,7 +14,7 @@ Link = namedtuple("Link", "title url")
 
 
 def get_latest_link() -> Link:
-    response = session.get(settings.inmanga_base_url)
+    response = session.get(settings.op_anime_index_url)
     response.raise_for_status()
     soup = BeautifulSoup(response.text, "html.parser")
 
