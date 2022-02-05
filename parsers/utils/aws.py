@@ -1,8 +1,7 @@
 """AWS Operations."""
 
 import tempfile
-from json import dumps, load
-from typing import List
+from json import load
 
 import boto3
 from botocore.exceptions import ClientError
