@@ -1,8 +1,9 @@
-FROM python:3.9-alpine
+FROM python:3.9.10-slim-buster
 
 WORKDIR /data
 
-RUN apk add curl gcc musl-dev
+RUN apt update && \
+    apt install -y curl gcc musl-dev
 
 ENV GET_POETRY https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py
 
