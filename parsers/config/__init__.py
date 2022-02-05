@@ -16,12 +16,13 @@ OP_INDEX_URL = (
 
 
 class Settings(BaseSettings):
+    manga_config_path: Optional[Path]
+    op_anime_index_url: str = OP_INDEX_URL
+    parse_one_piece_anime: bool = False
+    s3_bucket_name: str
     telegram_bot_token: str
     telegram_chat_id: int
-    op_anime_index_url: str = OP_INDEX_URL
     todoist_token: str
-    s3_bucket_name: str
-    manga_config_path: Optional[Path]
 
     @validator("manga_config_path")
     def validate_manga_config(cls, v: Optional[Path]):
