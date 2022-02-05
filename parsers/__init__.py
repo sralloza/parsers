@@ -1,9 +1,7 @@
 import click
 
-from .my_hero_academia import mha_manga_parser
-from .my_hero_academia_illegals import mhai_manga_parser
-from .one_piece import op_manga_parser, parse_op_anime
-from .one_punch_man import opm_manga_parser
+from .mangas import parse_mangas
+from .one_piece import parse_op_anime
 from .utils.options import silent_option
 
 
@@ -15,8 +13,5 @@ def app():
 @app.command("parse")
 @silent_option()
 def parse(silent: bool):
-    mha_manga_parser.parse(silent=silent)
-    mhai_manga_parser.parse(silent=silent)
-    op_manga_parser.parse(silent=silent)
+    parse_mangas(silent=silent)
     parse_op_anime(silent=silent)
-    opm_manga_parser.parse(silent=silent)

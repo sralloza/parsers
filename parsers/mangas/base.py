@@ -2,20 +2,21 @@ from json import dumps
 from typing import Dict
 from uuid import UUID
 
-from pydantic.main import BaseModel
+from pydantic import BaseModel
 
-from parsers.utils.aws import get_file_content, save_file_content
-
+from ..utils.aws import get_file_content, save_file_content
 from ..utils.immanga import get_chapter_ids
 from ..utils.json_encoding import UUIDEncoder
 from ..utils.notify import notify_text
 from ..utils.todoist import add_task
 
 
-class INMangaParser(BaseModel):
+class InMangaParser(BaseModel):
     first_chapter_uuid: UUID
-    public_base_url: str
     manga_name: str
+
+    def get_public_url(self, chapter_number, chapter_id):
+        return f"https://inmanga.com/ver/manga/{self.manga_name}/{chapter_number}/{chapter_id}"
 
     @property
     def aws_filename(self):
@@ -51,9 +52,8 @@ class INMangaParser(BaseModel):
         except ValueError:
             chapter_title = str(chapter_number)
 
-        url = self.public_base_url.format(
-            chapter_number=chapter_number, chapter_id=chapter_id
-        )
-        msg = f"Nuevo manga de {self.manga_name}: [Capítulo {chapter_title}]({url})"
+        url = self.get_public_url(chapter_number, chapter_id)
+        manga_name = self.manga_name.replace("-", " ").title()
+        msg = f"Nuevo manga de {manga_name}: [Capítulo {chapter_title}]({url})"
         notify_text(msg=msg)
         add_task(msg=msg)
