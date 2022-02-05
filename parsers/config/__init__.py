@@ -22,7 +22,13 @@ class Settings(BaseSettings):
     s3_bucket_name: str
     telegram_bot_token: str
     telegram_chat_id: int
-    todoist_token: str
+    todoist_token: Optional[str]
+    todoist_project_id: Optional[str]
+    todoist_due_str: Optional[str] = "today"
+
+    @property
+    def todoist_enabled(self):
+        return self.todoist_project_id is not None and self.todoist_token is not None
 
     @validator("manga_config_path")
     def validate_manga_config(cls, v: Optional[Path]):
