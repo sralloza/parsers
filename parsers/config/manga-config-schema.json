@@ -1,8 +1,11 @@
 {
   "title": "Manga Config File",
   "type": "object",
-  "additionalProperties": {
-    "type": "string",
-    "pattern": "\\b[0-9a-f]{8}\\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\\b[0-9a-f]{12}\\b"
-  }
+  "patternProperties": {
+    "^[a-z-]+$": {
+      "type": "string",
+      "pattern": "\\b[0-9a-f]{8}\\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\\b[0-9a-f]{12}\\b"
+    }
+  },
+  "additionalProperties": false
 }
