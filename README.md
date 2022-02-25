@@ -14,7 +14,7 @@ Required settings:
 
 Optional settings:
 
-- `MANGA_CONFIG_PATH`: full path to the `manga.json` file. Must be the container's path, not the host's path.
+- `MANGA_CONFIG_PATH`: full path to the `manga.json` file. Must be the container's path, not the host's path. **Note: the container's path can't be set to `/code` because the code is there.**
 - `PARSE_ONE_PIECE_ANIME`: boolean, false by default. It enables the one piece anime parsing. **WARNING: one piece anime parsing is currently broken, do not enable it**.
 - `TODOIST_TOKEN`: todoist token to enable todoist integration.
 - `TODOIST_PROJECT_ID`: todoist project id.
@@ -23,13 +23,13 @@ Optional settings:
 ## Development
 
 ```shell
-docker buildx build -t sralloza/parsers:2.0.1 --platform=linux/arm/v7,linux/amd64 --push .
+docker buildx build -t sralloza/parsers:2.0.2 --platform=linux/arm/v7,linux/amd64 --push .
 ```
 
 To run:
 
 ```shell
-docker run --env-file ENV_FILE --rm sralloza/parsers:2.0.1 parse
+docker run --env-file ENV_FILE --rm sralloza/parsers:2.0.2 parse
 ```
 
 To parse mangas, create a file `mangas.json`:

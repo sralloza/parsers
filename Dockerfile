@@ -1,6 +1,6 @@
 FROM python:3.9-alpine
 
-WORKDIR /data
+WORKDIR /code
 
 RUN apk add curl gcc musl-dev
 
@@ -11,9 +11,9 @@ RUN curl -sSL ${GET_POETRY} | POETRY_HOME=/opt/poetry python && \
     ln -s /opt/poetry/bin/poetry && \
     poetry config virtualenvs.create false
 
-COPY poetry.lock pyproject.toml /data/
+COPY poetry.lock pyproject.toml /code/
 
-COPY parsers /data/parsers
+COPY parsers /code/parsers
 
 RUN poetry install
 
