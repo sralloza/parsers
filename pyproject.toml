@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "parsers"
-version = "2.0.2"
+version = "2.0.3"
 description = "Parse anime and manga and send notification via telegram and a task via todoist"
 authors = ["Diego Alloza González <sralloza@gmail.com>"]
 maintainers = ["Diego Alloza González <sralloza@gmail.com>"]
