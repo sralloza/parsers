@@ -25,6 +25,7 @@ class InMangaParser(BaseModel):
     def parse(self, silent: bool):
         chapter_ids = get_chapter_ids(self.first_chapter_uuid)
 
+        # XXX: consider using collections.OrderedDict
         registered_chapters: Dict[str, UUID] = {
             a: UUID(b)
             for a, b in get_file_content(self.aws_filename, default="{}").items()
@@ -38,6 +39,9 @@ class InMangaParser(BaseModel):
                 registered_chapters[str(chapter_number)] = chapter_id
 
         if modified:
+            registered_chapters = dict(
+                sorted(registered_chapters.items(), key=lambda item: float(item[0]))
+            )
             save_file_content(
                 dumps(registered_chapters, cls=UUIDEncoder, indent=2),
                 self.aws_filename,
