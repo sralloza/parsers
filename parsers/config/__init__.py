@@ -61,4 +61,3 @@ def validate_schema(data, schema):
 
 
 settings = Settings()
-print(settings)
