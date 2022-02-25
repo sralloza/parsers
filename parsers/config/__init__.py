@@ -1,6 +1,6 @@
 from json import loads
 from pathlib import Path
-from typing import Optional
+from typing import Literal, Optional
 
 from jsonschema import ValidationError, validate
 from pydantic import BaseSettings, validator
@@ -17,7 +17,7 @@ OP_INDEX_URL = (
 
 class Settings(BaseSettings):
     manga_config_path: Optional[Path]
-    op_anime_index_url: str = OP_INDEX_URL
+    op_anime_index_url: Literal[OP_INDEX_URL] = OP_INDEX_URL
     parse_one_piece_anime: bool = False
     s3_bucket_name: str
     telegram_bot_token: str
@@ -61,3 +61,4 @@ def validate_schema(data, schema):
 
 
 settings = Settings()
+print(settings)
