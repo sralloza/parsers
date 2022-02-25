@@ -16,7 +16,7 @@ class InMangaParser(BaseModel):
     manga_name: str
 
     def get_public_url(self, chapter_number, chapter_id):
-        return f"https://inmanga.com/ver/manga/{self.manga_name}/{chapter_number}/{chapter_id}"
+        return f"https://inmanga.com/ver/manga/{self.manga_name}/{chapter_number:g}/{chapter_id}"
 
     @property
     def aws_filename(self):
