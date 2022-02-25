@@ -23,13 +23,13 @@ Optional settings:
 ## Development
 
 ```shell
-docker buildx build -t sralloza/parsers:2.0.2 --platform=linux/arm/v7,linux/amd64 --push .
+docker buildx build -t sralloza/parsers:$VERSION --platform=linux/arm/v7,linux/amd64 --push .
 ```
 
 To run:
 
 ```shell
-docker run --env-file ENV_FILE --rm sralloza/parsers:2.0.2 parse
+docker run --env-file ENV_FILE --rm sralloza/parsers:$VERSION parse
 ```
 
 To parse mangas, create a file `mangas.json`:
