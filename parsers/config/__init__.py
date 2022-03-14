@@ -39,7 +39,7 @@ class Settings(BaseSettings):
     @validator("manga_config_path")
     def validate_manga_config(cls, v: Optional[Path]):
         """Validates manga.json config."""
-        
+
         if v is None:
             return None
 

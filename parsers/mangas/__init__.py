@@ -13,7 +13,7 @@ def parse_mangas(silent=False):
         silent (bool, optional): if True, no notification will be sent even if a
             new chapter is found. Defaults to False.
     """
-    
+
     if not settings.manga_config_path:
         return
 

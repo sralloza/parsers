@@ -35,7 +35,7 @@ class InMangaParser(BaseModel):
             silent (bool): if True, no notification will be sent even if a
                 new chapter is found.
         """
-        
+
         chapter_ids = get_chapter_ids(self.first_chapter_uuid)
 
         # XXX: consider using collections.OrderedDict
