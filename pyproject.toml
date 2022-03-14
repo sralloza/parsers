@@ -9,7 +9,7 @@ maintainers = ["Diego Alloza González <sralloza@gmail.com>"]
 parsers = "parsers.main:main"
 
 [tool.poetry.dependencies]
-python = ">=3.7,<4"
+python = ">=3.9,<3.10"
 pydantic = "^1.8.2"
 requests = "^2.26.0"
 todoist-python = "^8.1.3"
