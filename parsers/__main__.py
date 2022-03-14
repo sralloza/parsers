@@ -1,3 +1,6 @@
+"""Main entrypoint to make module executable."""
+
 from .main import main
 
-main()
+if __name__ == "__main__":
+    main()

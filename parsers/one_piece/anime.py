@@ -1,3 +1,5 @@
+"""One Piece anime parser."""
+
 from collections import namedtuple
 from json import dumps
 from typing import List
@@ -14,6 +16,8 @@ Link = namedtuple("Link", "title url")
 
 
 def get_latest_link() -> Link:
+    """Returns the latest link found."""
+
     response = session.get(settings.op_anime_index_url)
     response.raise_for_status()
     soup = BeautifulSoup(response.text, "html.parser")
