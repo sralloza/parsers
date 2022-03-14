@@ -1,3 +1,5 @@
+"""Parsers configuration."""
+
 from json import loads
 from pathlib import Path
 from typing import Literal, Optional
@@ -16,6 +18,8 @@ OP_INDEX_URL = (
 
 
 class Settings(BaseSettings):
+    """Parsers settings."""
+
     manga_config_path: Optional[Path]
     op_anime_index_url: Literal[OP_INDEX_URL] = OP_INDEX_URL
     parse_one_piece_anime: bool = False
@@ -27,11 +31,15 @@ class Settings(BaseSettings):
     todoist_due_str: Optional[str] = "today"
 
     @property
-    def todoist_enabled(self):
+    def todoist_enabled(self) -> bool:
+        """Checks if todoist should be enabled based on other settings."""
         return self.todoist_project_id is not None and self.todoist_token is not None
 
+    # pylint: disable=no-self-argument,no-self-use
     @validator("manga_config_path")
     def validate_manga_config(cls, v: Optional[Path]):
+        """Validates manga.json config."""
+        
         if v is None:
             return None
 
@@ -54,6 +62,7 @@ def _format_jsonschema_validation_error(exc):
 
 
 def validate_schema(data, schema):
+    """Validates a schema using jsonschema."""
     try:
         validate(data, schema)
     except ValidationError as exc:

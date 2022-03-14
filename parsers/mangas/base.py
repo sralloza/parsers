@@ -1,3 +1,5 @@
+"""Base implementation of mangas parsers."""
+
 from json import dumps
 from typing import Dict
 from uuid import UUID
@@ -12,17 +14,28 @@ from ..utils.todoist import add_task
 
 
 class InMangaParser(BaseModel):
+    """Base implementation of InManga parsers."""
+
     first_chapter_uuid: UUID
     manga_name: str
 
     def get_public_url(self, chapter_number, chapter_id):
+        """Returns the public URL of the manga."""
         return f"https://inmanga.com/ver/manga/{self.manga_name}/{chapter_number:g}/{chapter_id}"
 
     @property
     def aws_filename(self):
+        """Returns the AWS S3 file where the IDs should be stored."""
         return self.manga_name.replace(" ", "-").replace(":", "") + "-manga"
 
     def parse(self, silent: bool):
+        """Parses the manga.
+
+        Args:
+            silent (bool): if True, no notification will be sent even if a
+                new chapter is found.
+        """
+        
         chapter_ids = get_chapter_ids(self.first_chapter_uuid)
 
         # XXX: consider using collections.OrderedDict
@@ -48,6 +61,14 @@ class InMangaParser(BaseModel):
             )
 
     def notify_new(self, chapter_number: float, chapter_id: UUID, silent: bool = False):
+        """Sends a telegran notification and adds a todoist task.
+
+        Args:
+            chapter_number (float): chapter number.
+            chapter_id (UUID): chapter UUID
+            silent (bool, optional): if False, nothing will be done. Defaults to False.
+        """
+
         if silent:
             return
 

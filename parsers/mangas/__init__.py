@@ -1,3 +1,5 @@
+"""Mangas parsers."""
+
 from json import loads
 
 from ..config import settings
@@ -5,6 +7,13 @@ from .base import InMangaParser
 
 
 def parse_mangas(silent=False):
+    """Parses all mangas.
+
+    Args:
+        silent (bool, optional): if True, no notification will be sent even if a
+            new chapter is found. Defaults to False.
+    """
+    
     if not settings.manga_config_path:
         return
 
