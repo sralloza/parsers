@@ -1,5 +1,7 @@
 # Parsers
 
+**_WARNING: this project is deprecated. Please use [sralloza/entertainment-source-manager](https://github.com/sralloza/entertainment-source-manager) instead._**
+
 Finds new anime and manga chapters and sends a notification via telegram.
 
 ## Production
